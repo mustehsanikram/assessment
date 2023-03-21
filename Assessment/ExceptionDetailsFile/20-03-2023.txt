@@ -1,0 +1,96 @@
+-----------Exception Details on  3/20/2023 10:24:45 PM-----------------
+-------------------------------------------------------------------------------------
+
+
+
+Log Written Date: 3/20/2023 10:24:45 PM
+
+Error Line No : line 21
+
+Error Message: NullReferenceException
+
+Exception Type: System.NullReferenceException
+
+Error Location : Object reference not set to an instance of an object.
+
+ Error Page Url: https://localhost:44376/Tasks/GetAllTaskDetails
+
+User Host IP: 
+
+
+--------------------------------*End*------------------------------------------
+
+
+
+-----------Exception Details on  3/20/2023 10:25:01 PM-----------------
+-------------------------------------------------------------------------------------
+
+
+
+Log Written Date: 3/20/2023 10:25:01 PM
+
+Error Line No : line 79
+
+Error Message: NullReferenceException
+
+Exception Type: System.NullReferenceException
+
+Error Location : Object reference not set to an instance of an object.
+
+ Error Page Url: https://localhost:44376/Tasks/GetAllTaskDetails
+
+User Host IP: 
+
+
+--------------------------------*End*------------------------------------------
+
+
+
+-----------Exception Details on  3/20/2023 11:23:47 PM-----------------
+-------------------------------------------------------------------------------------
+
+
+
+Log Written Date: 3/20/2023 11:23:47 PM
+
+Error Line No : line 43
+
+Error Message: SqlException
+
+Exception Type: System.Data.SqlClient.SqlException
+
+Error Location : Conversion failed when converting date and/or time from character string.
+
+ Error Page Url: https://localhost:44376/
+
+User Host IP: 
+
+
+--------------------------------*End*------------------------------------------
+
+
+
+-----------Exception Details on  3/20/2023 11:24:23 PM-----------------
+-------------------------------------------------------------------------------------
+
+
+
+Log Written Date: 3/20/2023 11:24:23 PM
+
+Error Line No : line 43
+
+Error Message: SqlException
+
+Exception Type: System.Data.SqlClient.SqlException
+
+Error Location : Conversion failed when converting date and/or time from character string.
+
+ Error Page Url: https://localhost:44376/
+
+User Host IP: 
+
+
+--------------------------------*End*------------------------------------------
+
+
+

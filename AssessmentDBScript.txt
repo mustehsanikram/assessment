@@ -1,0 +1,247 @@
+USE [master]
+GO
+
+/****** Object:  Database [AssessmentDB]    Script Date: 3/20/2023 11:47:55 PM ******/
+CREATE DATABASE [AssessmentDB]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'AssessmentDB', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\AssessmentDB.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'AssessmentDB_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\AssessmentDB_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [AssessmentDB].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+
+ALTER DATABASE [AssessmentDB] SET ANSI_NULL_DEFAULT OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET ANSI_NULLS OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET ANSI_PADDING OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET ANSI_WARNINGS OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET ARITHABORT OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET AUTO_CLOSE OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET AUTO_SHRINK OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET AUTO_UPDATE_STATISTICS ON 
+GO
+
+ALTER DATABASE [AssessmentDB] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET CURSOR_DEFAULT  GLOBAL 
+GO
+
+ALTER DATABASE [AssessmentDB] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET NUMERIC_ROUNDABORT OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET QUOTED_IDENTIFIER OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET RECURSIVE_TRIGGERS OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET  DISABLE_BROKER 
+GO
+
+ALTER DATABASE [AssessmentDB] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET TRUSTWORTHY OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET PARAMETERIZATION SIMPLE 
+GO
+
+ALTER DATABASE [AssessmentDB] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET HONOR_BROKER_PRIORITY OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET RECOVERY FULL 
+GO
+
+ALTER DATABASE [AssessmentDB] SET  MULTI_USER 
+GO
+
+ALTER DATABASE [AssessmentDB] SET PAGE_VERIFY CHECKSUM  
+GO
+
+ALTER DATABASE [AssessmentDB] SET DB_CHAINING OFF 
+GO
+
+ALTER DATABASE [AssessmentDB] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+
+ALTER DATABASE [AssessmentDB] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+
+ALTER DATABASE [AssessmentDB] SET DELAYED_DURABILITY = DISABLED 
+GO
+
+ALTER DATABASE [AssessmentDB] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+
+ALTER DATABASE [AssessmentDB] SET QUERY_STORE = ON
+GO
+
+ALTER DATABASE [AssessmentDB] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+
+ALTER DATABASE [AssessmentDB] SET  READ_WRITE 
+GO
+
+
+------------------------------------------------------------------------ Table --------------------------------------------------------------------------------
+
+USE [AssessmentDB]
+GO
+
+/****** Object:  Table [dbo].[tbl_Tasks]    Script Date: 3/20/2023 11:48:41 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[tbl_Tasks](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [nvarchar](100) NULL,
+	[Description] [nvarchar](100) NULL,
+	[DueDate] [datetime] NULL,
+	[IsActive] [bit] NULL,
+ CONSTRAINT [PK_tbl_Tasks] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+---------------------------------------------------------------- SPs ----------------------------------------------------------------------------------------------
+
+USE [AssessmentDB]
+GO
+
+/****** Object:  StoredProcedure [dbo].[uspAddNewTask]    Script Date: 3/20/2023 11:49:25 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE Procedure [dbo].[uspAddNewTask]
+(  
+   @Title varchar (100),  
+   @Description varchar (100),  
+   @DueDate datetime 
+)  
+As  
+Begin  
+   Insert into tbl_Tasks values(@Title,@Description,@DueDate,1)  
+End 
+GO
+
+
+-------------------------------------------------------------------
+
+USE [AssessmentDB]
+GO
+
+/****** Object:  StoredProcedure [dbo].[uspDeleteTask]    Script Date: 3/20/2023 11:49:39 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+Create procedure [dbo].[uspDeleteTask]  
+(  
+   @TaskId int  
+)  
+As   
+Begin  
+   Update tbl_Tasks   
+   set IsActive = 0
+   where Id = @TaskId  
+End 
+GO
+
+
+---------------------------------------------------------------------
+
+
+
+USE [AssessmentDB]
+GO
+
+/****** Object:  StoredProcedure [dbo].[uspGetAllTasks]    Script Date: 3/20/2023 11:49:55 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE Procedure [dbo].[uspGetAllTasks]  
+AS  
+Begin  
+   Select Id, Title, [Description], CONVERT(varchar, DueDate, 20) AS DueDate from tbl_Tasks where IsActive = 1  
+End 
+GO
+
+
+--------------------------------------------------------------------------------
+
+USE [AssessmentDB]
+GO
+
+/****** Object:  StoredProcedure [dbo].[uspUpdateTaskDetails]    Script Date: 3/20/2023 11:50:12 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE procedure [dbo].[uspUpdateTaskDetails]
+(  
+   @TaskId int,  
+   @Title varchar (100),  
+   @Description varchar (100),  
+   @DueDate datetime 
+)  
+as  
+begin  
+   Update tbl_Tasks   
+   set Title = @Title,  
+   [Description]= @Description,
+   DueDate = @DueDate
+   where Id = @TaskId  
+End 
+GO
+
+
